@@ -67,3 +67,35 @@ export async function scrapeDialogLinks(page: Page) {
 
   return dialogLinkContents;
 }
+
+export async function goToUserProfile(
+  page: Page,
+  { userToSearch }: { userToSearch: string }
+) {
+  ux.action.start(`Going to @${userToSearch}'s profile`);
+
+  await page.getByRole("link").getByText("search").click();
+  await page.waitForTimeout(3 * 1000);
+  await page.getByPlaceholder("search").fill(userToSearch);
+  await page.waitForTimeout(10 * 1000);
+  await page.getByText(userToSearch, { exact: true }).click();
+  await page.waitForTimeout(10 * 1000);
+
+  ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
+}
+
+export async function unfollowCurrentProfile(page: Page) {
+  ux.action.start("Unfollowing account");
+
+  await page.getByRole("button").getByText("Following").click();
+  await page.waitForTimeout(3 * 1000);
+  await page.getByRole("dialog").first().getByText("unfollow").click();
+  await page.waitForTimeout(5 * 1000);
+
+  ux.action.stop("✅ Account unfollowed!");
+}
+
+export async function unfollowUser(page: Page, { user }: { user: string }) {
+  await goToUserProfile(page, { userToSearch: user });
+  await unfollowCurrentProfile(page);
+}

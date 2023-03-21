@@ -1,7 +1,7 @@
 import { Flags } from "@oclif/core";
 
 export const flags = {
-  list: {
+  ig: {
     user: Flags.string({
       char: "u",
       aliases: ["u", "username"],

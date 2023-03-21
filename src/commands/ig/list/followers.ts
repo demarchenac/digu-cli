@@ -21,7 +21,7 @@ export default class Followers extends Command {
 
   static args = {};
 
-  static flags = flags.list;
+  static flags = flags.ig;
 
   async ensureCredentials(
     credentials: OptionalCredentials
