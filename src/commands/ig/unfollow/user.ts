@@ -13,7 +13,7 @@ const { save, ...igFlags } = flags.ig;
 
 export default class Followers extends Command {
   static description =
-    "Should fetch a list of the accounts that are following the provided user";
+    "Should unfollow the specified @user from the account provided.";
 
   static examples = [
     `$ digu-cli ig unfollow user <@userToUnfollow> (this way the CLI will ask relevant info it may need)`,
