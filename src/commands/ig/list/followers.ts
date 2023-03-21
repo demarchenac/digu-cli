@@ -1,9 +1,14 @@
 import { writeFileSync } from "fs";
-import { Args, Command, Flags, ux } from "@oclif/core";
+import { Command, ux } from "@oclif/core";
 import type { Page } from "playwright";
 import { chromium } from "playwright";
-
-type optionalString = string | undefined;
+import { flags } from "../../../flags";
+import { navigation, scrape } from "../../../utils";
+import { guards } from "../../../guards";
+import type {
+  Credentials,
+  OptionalCredentials,
+} from "../../../types/credentials";
 
 export default class Followers extends Command {
   static description =
@@ -16,86 +21,20 @@ export default class Followers extends Command {
 
   static args = {};
 
-  static flags = {
-    user: Flags.string({
-      char: "u",
-      aliases: ["u", "username"],
-      description: "User's account.",
-      required: false,
-    }),
-    password: Flags.string({
-      char: "p",
-      aliases: ["p", "password"],
-      description: "User's password.",
-      required: false,
-    }),
-    save: Flags.boolean({
-      char: "s",
-      aliases: ["s", "save-results"],
-      description: "Whether or not this list should be saved.",
-      required: false,
-      default: false,
-    }),
-    viewBrowser: Flags.boolean({
-      char: "v",
-      aliases: ["v", "view-browser"],
-      description: "Wether or not the browser should open in a headless manner",
-      required: false,
-      default: false,
-    }),
-  };
+  static flags = flags.list;
 
-  async ensureCredentials(credentials: {
-    user: optionalString;
-    password: optionalString;
-  }): Promise<{ user: string; password: string }> {
-    let { user, password } = credentials;
-
-    if (!user) {
-      user = await ux.prompt("Account username");
-    }
-
-    if (!password) {
-      password = await ux.prompt("Account password", { type: "hide" });
-    }
-
-    return { user, password };
+  async ensureCredentials(
+    credentials: OptionalCredentials
+  ): Promise<Credentials> {
+    return await guards.credentials(credentials);
   }
 
-  async login(
-    page: Page,
-    { user, password }: { user: string; password: string }
-  ): Promise<void> {
-    ux.action.start(`Log into @${user}'s account`);
-
-    await page.goto("https://www.instagram.com");
-    await page.waitForTimeout(3000);
-
-    await page.getByLabel("Phone number, username, or email").fill(user);
-    await page.waitForTimeout(3000);
-
-    await page.getByLabel("Password").fill(password);
-    await page.waitForTimeout(3000);
-
-    await page.getByText("Log in", { exact: true }).click();
-
+  async login(page: Page, credentials: Credentials): Promise<void> {
     try {
-      await page.waitForTimeout(10000);
-
-      // dont save login info
-      await page.getByText("Not now").click();
-      await page.waitForTimeout(10000);
-
-      // skip notifications alert
-      await page.getByText("Not now").click();
+      await navigation.instagram.login(page, credentials);
     } catch (err) {
       const error = err as Error;
-      if (!error.message.includes("waiting for getByText('Not now')")) {
-        this.log(error.message);
-        throw error;
-      }
-    } finally {
-      ux.action.stop("✅ Logged in!");
+      this.log(error.message);
     }
   }
 
@@ -106,10 +45,7 @@ export default class Followers extends Command {
     ux.action.start(`How many followers does @${user} has?`);
 
     // go to profile
-    await page
-      .getByRole("link", { name: `${user}'s profile picture Profile` })
-      .click();
-    await page.waitForTimeout(3000);
+    await navigation.instagram.goToProfile(page, { user });
 
     // get follower count
     const followersTextContent = await page
@@ -140,45 +76,28 @@ export default class Followers extends Command {
     });
 
     // go to profile
-    await page
-      .getByRole("link", { name: `${user}'s profile picture Profile` })
-      .click();
-    await page.waitForTimeout(3000);
+    await navigation.instagram.goToProfile(page, { user });
 
     // scrape followers!
-    // Show followers
-    await page.getByText("followers").click();
-    await page.waitForTimeout(3000);
+    await navigation.instagram.focusProfileDialog(page, {
+      dialog: "followers",
+    });
 
-    // we'll scroll until we can get all of the account followers user tags.
-    let followers = await page
-      .getByRole("dialog")
-      .getByRole("link")
-      .allInnerTexts();
-
-    followers = followers.filter((follower) => follower.trim().length > 0);
+    let followers = await scrape.instagram.profileDialogLinks(page);
 
     progressBar.update(followers.length);
-
-    // we'll focus the first profile in order to scroll the container to the end
-    await page.getByRole("dialog").getByRole("link").first().focus();
-    await page.waitForTimeout(3000);
 
     let previousCount = 0;
     let stuckCount = 0;
 
+    // we'll scroll until we can get all of the account followers user tags.
+    // or until we're 'stuck' (meaning no more accounts are loading).
     while (followers.length < followerCount && stuckCount < 5) {
       await page.keyboard.press("End");
       await page.waitForTimeout(5000);
-      previousCount = followers.length;
-      followers = await page
-        .getByRole("dialog")
-        .getByRole("link")
-        .allInnerTexts();
 
-      followers = followers
-        .filter((innerText) => innerText.trim().length > 0)
-        .map((innerText) => innerText.replace("\nVerified", ""));
+      previousCount = followers.length;
+      followers = await scrape.instagram.profileDialogLinks(page);
 
       progressBar.update(followers.length);
 
@@ -200,9 +119,11 @@ export default class Followers extends Command {
 
   save({ user, followers }: { user: string; followers: string[] }) {
     ux.action.start(`Saving @${user} followers`);
+
     const json = JSON.stringify({ followers }, null, 2);
     const filename = `${user} followers.json`;
     writeFileSync(filename, json, "utf-8");
+
     ux.action.stop(`✅ ${filename} was saved!`);
   }
 
@@ -217,9 +138,9 @@ export default class Followers extends Command {
     const page = await browser.newPage();
 
     await this.login(page, credentials);
-    await page.waitForTimeout(3000);
+
     const followerCount = await this.scrapeFollowerCount(page, { user });
-    await page.waitForTimeout(3000);
+
     const followers = await this.scrapeFollowers(page, { user, followerCount });
 
     await browser.close();
