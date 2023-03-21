@@ -15,7 +15,7 @@ export default class Followers extends Command {
     "Should fetch a list of the accounts that are following the provided user";
 
   static examples = [
-    `$ digu-cli ig list followers (this way the clit will ask relevant info it may need)`,
+    `$ digu-cli ig list followers (this way the CLI will ask relevant info it may need)`,
     `$ digu-cli ig list followers -u <username> -p <password> -s`,
   ];
 
