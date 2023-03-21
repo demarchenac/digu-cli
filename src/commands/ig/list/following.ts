@@ -45,7 +45,7 @@ export default class Following extends Command {
     ux.action.start(`How many accounts does @${user} follow?`);
 
     // go to profile
-    await navigation.instagram.goToProfile(page, { user });
+    await navigation.instagram.goToMyProfile(page, { user });
 
     // get follower count
     const followingTextContent = await page
@@ -76,7 +76,7 @@ export default class Following extends Command {
     });
 
     // go to profile
-    await navigation.instagram.goToProfile(page, { user });
+    await navigation.instagram.goToMyProfile(page, { user });
 
     // scrape followers!
     // Show followers

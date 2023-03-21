@@ -1,6 +1,6 @@
 import {
   focusProfileDialog,
-  goToProfile,
+  goToMyProfile,
   login,
   scrapeDialogLinks,
 } from "./instagram";
@@ -8,7 +8,7 @@ import {
 export const navigation = {
   instagram: {
     login: login,
-    goToProfile: goToProfile,
+    goToMyProfile: goToMyProfile,
     focusProfileDialog: focusProfileDialog,
   },
 };

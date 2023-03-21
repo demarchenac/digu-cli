@@ -35,7 +35,7 @@ export async function login(page: Page, { user, password }: Credentials) {
   }
 }
 
-export async function goToProfile(page: Page, { user }: { user: string }) {
+export async function goToMyProfile(page: Page, { user }: { user: string }) {
   await page
     .getByRole("link", { name: `${user}'s profile picture Profile` })
     .click();
