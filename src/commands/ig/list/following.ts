@@ -5,13 +5,13 @@ import { chromium } from "playwright";
 
 type optionalString = string | undefined;
 
-export default class Followers extends Command {
+export default class Following extends Command {
   static description =
-    "Should fetch a list of the accounts that are following the provided user";
+    "Should fetch a list of the accounts that the provided user follows";
 
   static examples = [
-    `$ digu-cli ig list followers (this way the clit will ask relevant info it may need)`,
-    `$ digu-cli ig list followers -u <username> -p <password> -s`,
+    `$ digu-cli ig list following (this way the clit will ask relevant info it may need)`,
+    `$ digu-cli ig list following -u <username> -p <password> -s`,
   ];
 
   static args = {};
@@ -99,11 +99,11 @@ export default class Followers extends Command {
     }
   }
 
-  async scrapeFollowerCount(
+  async scrapeFollowingCount(
     page: Page,
     { user }: { user: string }
   ): Promise<number> {
-    ux.action.start(`How many followers does @${user} has?`);
+    ux.action.start(`How many accounts does @${user} follow?`);
 
     // go to profile
     await page
@@ -112,31 +112,31 @@ export default class Followers extends Command {
     await page.waitForTimeout(3000);
 
     // get follower count
-    const followersTextContent = await page
-      .getByText("followers")
+    const followingTextContent = await page
+      .getByText("following")
       .textContent();
 
-    const followerCount = parseInt(
-      (followersTextContent ?? "0").replace(" followers", "").replace(",", "")
+    const followingCount = parseInt(
+      (followingTextContent ?? "0").replace(" following", "").replace(",", "")
     );
 
-    ux.action.stop(`✅ ${followerCount} followers!`);
-    return followerCount;
+    ux.action.stop(`✅ ${followingCount} accounts!`);
+    return followingCount;
   }
 
-  async scrapeFollowers(
+  async scrapeFollowing(
     page: Page,
-    { user, followerCount }: { user: string; followerCount: number }
+    { user, followingCount }: { user: string; followingCount: number }
   ): Promise<string[]> {
     const progressBar = ux.progress({
-      format: "Scrapping followers | {bar} | {value}/{total} accounts",
+      format: "Scrapping followed accounts | {bar} | {value}/{total} accounts",
       barCompleteChar: "\u2588",
       barIncompleteChar: "\u2591",
     });
 
-    progressBar.start(followerCount, 0, {
+    progressBar.start(followingCount, 0, {
       value: 0,
-      total: followerCount,
+      total: followingCount,
     });
 
     // go to profile
@@ -147,42 +147,43 @@ export default class Followers extends Command {
 
     // scrape followers!
     // Show followers
-    await page.getByText("followers").click();
+    await page.getByText("following").click();
     await page.waitForTimeout(3000);
 
     // we'll scroll until we can get all of the account followers user tags.
-    let followers = await page
+    let following = await page
       .getByRole("dialog")
       .getByRole("link")
       .allInnerTexts();
 
-    followers = followers.filter((follower) => follower.trim().length > 0);
+    following = following.filter((followed) => followed.trim().length > 0);
 
-    progressBar.update(followers.length);
+    progressBar.update(following.length);
 
     // we'll focus the first profile in order to scroll the container to the end
     await page.getByRole("dialog").getByRole("link").first().focus();
     await page.waitForTimeout(3000);
 
     let previousCount = 0;
+
     let stuckCount = 0;
 
-    while (followers.length < followerCount && stuckCount < 5) {
+    while (following.length < followingCount && stuckCount < 5) {
       await page.keyboard.press("End");
       await page.waitForTimeout(5000);
-      previousCount = followers.length;
-      followers = await page
+      previousCount = following.length;
+      following = await page
         .getByRole("dialog")
         .getByRole("link")
         .allInnerTexts();
 
-      followers = followers
+      following = following
         .filter((innerText) => innerText.trim().length > 0)
         .map((innerText) => innerText.replace("\nVerified", ""));
 
-      progressBar.update(followers.length);
+      progressBar.update(following.length);
 
-      if (previousCount === followers.length) {
+      if (previousCount === following.length) {
         stuckCount++;
       }
     }
@@ -191,23 +192,23 @@ export default class Followers extends Command {
 
     if (stuckCount >= 5) {
       this.log(
-        `\tA discrepancy was found, we only found ${followers.length} followers instead of ${followerCount}!`
+        `\tA discrepancy was found, we only found ${following.length} followed accounts instead of ${followingCount}!`
       );
     }
 
-    return followers;
+    return following;
   }
 
-  save({ user, followers }: { user: string; followers: string[] }) {
-    ux.action.start(`Saving @${user} followers`);
-    const json = JSON.stringify({ followers }, null, 2);
-    const filename = `${user} followers.json`;
+  save({ user, following }: { user: string; following: string[] }) {
+    ux.action.start(`Saving @${user} followed accounts ${following.length}`);
+    const json = JSON.stringify({ following }, null, 2);
+    const filename = `${user} following.json`;
     writeFileSync(filename, json, "utf-8");
     ux.action.stop(`✅ ${filename} was saved!`);
   }
 
   async run(): Promise<void> {
-    const { flags } = await this.parse(Followers);
+    const { flags } = await this.parse(Following);
     const { save, viewBrowser } = flags;
 
     const credentials = await this.ensureCredentials(flags);
@@ -218,17 +219,20 @@ export default class Followers extends Command {
 
     await this.login(page, credentials);
     await page.waitForTimeout(3000);
-    const followerCount = await this.scrapeFollowerCount(page, { user });
+    const followingCount = await this.scrapeFollowingCount(page, { user });
     await page.waitForTimeout(3000);
-    const followers = await this.scrapeFollowers(page, { user, followerCount });
+    const following = await this.scrapeFollowing(page, {
+      user,
+      followingCount,
+    });
 
     await browser.close();
 
     if (save) {
-      this.save({ user, followers });
+      this.save({ user, following });
     } else {
       this.log(
-        `@${user} followers were not saved! If you wish to save them don't forget to add the -s flag!`
+        `@${user} following accounts were not saved! If you wish to save them don't forget to add the -s flag!`
       );
     }
   }
