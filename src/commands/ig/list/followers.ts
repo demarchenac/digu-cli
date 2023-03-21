@@ -120,7 +120,7 @@ export default class Followers extends Command {
   save({ user, followers }: { user: string; followers: string[] }) {
     ux.action.start(`Saving @${user} followers`);
 
-    const json = JSON.stringify({ followers }, null, 2);
+    const json = JSON.stringify(followers, null, 2);
     const filename = `${user} followers.json`;
     writeFileSync(filename, json, "utf-8");
 

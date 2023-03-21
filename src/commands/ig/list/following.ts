@@ -121,7 +121,7 @@ export default class Following extends Command {
   save({ user, following }: { user: string; following: string[] }) {
     ux.action.start(`Saving @${user} followed accounts ${following.length}`);
 
-    const json = JSON.stringify({ following }, null, 2);
+    const json = JSON.stringify(following, null, 2);
     const filename = `${user} following.json`;
     writeFileSync(filename, json, "utf-8");
 
