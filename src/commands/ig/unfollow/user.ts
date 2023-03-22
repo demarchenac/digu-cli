@@ -1,4 +1,4 @@
-import { Args, Command } from "@oclif/core";
+import { Args, Command, Flags } from "@oclif/core";
 import type { Page } from "playwright";
 import { chromium } from "playwright";
 import { flags } from "../../../flags";
@@ -28,7 +28,14 @@ export default class Followers extends Command {
     }),
   };
 
-  static flags = igFlags;
+  static flags = {
+    ...igFlags,
+    keepFavorites: Flags.boolean({
+      default: false,
+      required: false,
+      aliases: ["keep-favorites"],
+    }),
+  };
 
   async ensureCredentials(
     credentials: OptionalCredentials
@@ -45,13 +52,19 @@ export default class Followers extends Command {
     }
   }
 
-  async unfollowUser(page: Page, { user }: { user: string }) {
-    return await navigation.instagram.unfollowUser(page, { user });
+  async unfollowUser(
+    page: Page,
+    { user, keepFavorites = false }: { user: string; keepFavorites: boolean }
+  ) {
+    return await navigation.instagram.unfollowUser(page, {
+      user,
+      keepFavorites,
+    });
   }
 
   async run(): Promise<void> {
     const { args, flags } = await this.parse(Followers);
-    const { viewBrowser } = flags;
+    const { viewBrowser, keepFavorites } = flags;
 
     const credentials = await this.ensureCredentials(flags);
 
@@ -59,7 +72,7 @@ export default class Followers extends Command {
     const page = await browser.newPage();
 
     await this.login(page, credentials);
-    await this.unfollowUser(page, { user: args.userToUnfollow });
+    await this.unfollowUser(page, { user: args.userToUnfollow, keepFavorites });
 
     await browser.close();
   }

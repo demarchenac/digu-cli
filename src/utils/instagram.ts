@@ -78,24 +78,62 @@ export async function goToUserProfile(
   await page.waitForTimeout(3 * 1000);
   await page.getByPlaceholder("search").fill(userToSearch);
   await page.waitForTimeout(10 * 1000);
-  await page.getByText(userToSearch, { exact: true }).click();
+  await page.getByRole("link").getByText(userToSearch, { exact: true }).click();
   await page.waitForTimeout(10 * 1000);
 
   ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
 }
 
-export async function unfollowCurrentProfile(page: Page) {
+export async function unfollowCurrentProfile(
+  page: Page,
+  { keepFavorites = false }: { keepFavorites: boolean }
+) {
   ux.action.start("Unfollowing account");
 
-  await page.getByRole("button").getByText("Following").click();
+  const followingLocator = await page
+    .getByRole("button")
+    .getByText("Following");
+
+  const isFollowing = (await followingLocator.count()) === 1;
+
+  if (!isFollowing) {
+    ux.action.stop("❌ cannot unfollow account that isn't followed");
+    return;
+  }
+
+  await followingLocator.click();
   await page.waitForTimeout(3 * 1000);
+
+  if (keepFavorites) {
+    const isMarkedAsFavorite = await page
+      .getByRole("dialog")
+      .getByText("Remove from favorites")
+      .isVisible();
+
+    if (isMarkedAsFavorite) {
+      await page
+        .getByRole("dialog")
+        .getByRole("button")
+        .getByRole("img", { name: "Close", exact: true })
+        .click();
+
+      await page.waitForTimeout(3 * 1000);
+
+      ux.action.stop("❌ this account is marked as favorite!");
+      return;
+    }
+  }
+
   await page.getByRole("dialog").first().getByText("unfollow").click();
   await page.waitForTimeout(5 * 1000);
 
   ux.action.stop("✅ Account unfollowed!");
 }
 
-export async function unfollowUser(page: Page, { user }: { user: string }) {
+export async function unfollowUser(
+  page: Page,
+  { user, keepFavorites = false }: { user: string; keepFavorites: boolean }
+) {
   await goToUserProfile(page, { userToSearch: user });
-  await unfollowCurrentProfile(page);
+  await unfollowCurrentProfile(page, { keepFavorites });
 }
