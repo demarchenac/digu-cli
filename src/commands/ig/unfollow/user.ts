@@ -59,6 +59,7 @@ export default class Followers extends Command {
     return await navigation.instagram.unfollowUser(page, {
       user,
       keepFavorites,
+      cacheMessagesToQueue: false,
     });
   }
 

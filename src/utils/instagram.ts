@@ -1,6 +1,7 @@
 import { ux } from "@oclif/core";
 import { Page } from "playwright";
 import type { Credentials } from "../types/credentials";
+import { messageQueue } from "./messages";
 
 export async function login(page: Page, { user, password }: Credentials) {
   ux.action.start(`Log into @${user}'s account`);
@@ -70,9 +71,14 @@ export async function scrapeDialogLinks(page: Page) {
 
 export async function goToUserProfile(
   page: Page,
-  { userToSearch }: { userToSearch: string }
+  {
+    userToSearch,
+    logMessages = true,
+  }: { userToSearch: string; logMessages: boolean }
 ) {
-  ux.action.start(`Going to @${userToSearch}'s profile`);
+  if (logMessages) {
+    ux.action.start(`Going to @${userToSearch}'s profile`);
+  }
 
   await page.getByRole("link").getByText("search").click();
   await page.waitForTimeout(3 * 1000);
@@ -81,14 +87,32 @@ export async function goToUserProfile(
   await page.getByRole("link").getByText(userToSearch, { exact: true }).click();
   await page.waitForTimeout(10 * 1000);
 
-  ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
+  if (logMessages) {
+    ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
+  }
+}
+
+async function closeDialog(page: Page) {
+  await page
+    .getByRole("dialog")
+    .getByRole("button")
+    .getByRole("img", { name: "Close", exact: true })
+    .click();
+
+  await page.waitForTimeout(3 * 1000);
 }
 
 export async function unfollowCurrentProfile(
   page: Page,
-  { keepFavorites = false }: { keepFavorites: boolean }
+  {
+    user,
+    keepFavorites = false,
+    cacheMessagesToQueue = false, // messages should be hidden and errors should be passed to messageQueue.
+  }: { user: string; keepFavorites: boolean; cacheMessagesToQueue: boolean }
 ) {
-  ux.action.start("Unfollowing account");
+  if (!cacheMessagesToQueue) {
+    ux.action.start(`Unfollowing @${user}'s account`);
+  }
 
   const followingLocator = await page
     .getByRole("button")
@@ -97,7 +121,15 @@ export async function unfollowCurrentProfile(
   const isFollowing = (await followingLocator.count()) === 1;
 
   if (!isFollowing) {
-    ux.action.stop("❌ cannot unfollow account that isn't followed");
+    if (cacheMessagesToQueue) {
+      messageQueue.addMessage(
+        `❌ cannot unfollow @${user}, since you're not following this account`
+      );
+    } else {
+      ux.action.stop(
+        `❌ cannot unfollow @${user}, since you're not following this account`
+      );
+    }
     return;
   }
 
@@ -111,29 +143,43 @@ export async function unfollowCurrentProfile(
       .isVisible();
 
     if (isMarkedAsFavorite) {
-      await page
-        .getByRole("dialog")
-        .getByRole("button")
-        .getByRole("img", { name: "Close", exact: true })
-        .click();
+      await closeDialog(page);
 
-      await page.waitForTimeout(3 * 1000);
+      if (cacheMessagesToQueue) {
+        messageQueue.addMessage(`❌ @${user}'s account is marked as favorite!`);
+      } else {
+        ux.action.stop(`❌ @${user}'s account is marked as favorite!`);
+      }
 
-      ux.action.stop("❌ this account is marked as favorite!");
       return;
     }
   }
 
-  await page.getByRole("dialog").first().getByText("unfollow").click();
-  await page.waitForTimeout(5 * 1000);
+  // await page.getByRole("dialog").first().getByText("unfollow").click();
+  // await page.waitForTimeout(3 * 1000);
+  await closeDialog(page);
+  await page.waitForTimeout(2 * 1000);
 
-  ux.action.stop("✅ Account unfollowed!");
+  if (!cacheMessagesToQueue) {
+    ux.action.stop(`✅ @${user}'s account has been unfollowed!`);
+  }
 }
 
 export async function unfollowUser(
   page: Page,
-  { user, keepFavorites = false }: { user: string; keepFavorites: boolean }
+  {
+    user,
+    keepFavorites = false,
+    cacheMessagesToQueue = false,
+  }: { user: string; keepFavorites: boolean; cacheMessagesToQueue: boolean }
 ) {
-  await goToUserProfile(page, { userToSearch: user });
-  await unfollowCurrentProfile(page, { keepFavorites });
+  await goToUserProfile(page, {
+    userToSearch: user,
+    logMessages: !cacheMessagesToQueue,
+  });
+  await unfollowCurrentProfile(page, {
+    user,
+    keepFavorites,
+    cacheMessagesToQueue,
+  });
 }
