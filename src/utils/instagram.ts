@@ -182,7 +182,9 @@ export async function unfollowCurrentProfile(
 
 	await page.waitForTimeout(2 * 1000);
 
-	if (!cacheMessagesToQueue) {
+	if (cacheMessagesToQueue) {
+		messageQueue.addMessage(`✅ @${user}'s account has been unfollowed!`);
+	} else {
 		ux.action.stop(`✅ @${user}'s account has been unfollowed!`);
 	}
 
