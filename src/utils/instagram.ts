@@ -98,6 +98,9 @@ export async function goToUserProfile(
 			messageQueue.addMessage(`❌ could not find @${userToSearch}'s profile`);
 		}
 
+		await page.getByRole('link').getByLabel('search').click();
+		await page.waitForTimeout(3 * 1000);
+
 		return null;
 	}
 
