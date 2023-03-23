@@ -92,6 +92,16 @@ export async function goToUserProfile(
 	}
 }
 
+async function isDialogCloseButtonVisible(page: Page) {
+	const isButtonVisible = await page
+		.getByRole('dialog')
+		.getByRole('button')
+		.getByRole('img', { name: 'Close', exact: true })
+		.isVisible();
+
+	return isButtonVisible;
+}
+
 async function closeDialog(page: Page) {
 	await page
 		.getByRole('dialog')
@@ -158,7 +168,12 @@ export async function unfollowCurrentProfile(
 
 	await page.getByRole('dialog').first().getByText('unfollow').click();
 	await page.waitForTimeout(3 * 1000);
-	await closeDialog(page);
+
+	const dialogIsStillOpen = await isDialogCloseButtonVisible(page);
+	if (dialogIsStillOpen) {
+		await closeDialog(page);
+	}
+
 	await page.waitForTimeout(2 * 1000);
 
 	if (!cacheMessagesToQueue) {
