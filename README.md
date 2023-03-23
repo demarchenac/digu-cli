@@ -20,7 +20,7 @@ $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/1.0.3 darwin-arm64 node-v18.15.0
+digu-cli/1.0.4 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
@@ -29,6 +29,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`digu-cli autocomplete [SHELL]`](#digu-cli-autocomplete-shell)
+* [`digu-cli commands`](#digu-cli-commands)
 * [`digu-cli hello PERSON`](#digu-cli-hello-person)
 * [`digu-cli hello world`](#digu-cli-hello-world)
 * [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
@@ -45,7 +47,69 @@ USAGE
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
 * [`digu-cli plugins update`](#digu-cli-plugins-update)
+* [`digu-cli update [CHANNEL]`](#digu-cli-update-channel)
 * [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
+
+## `digu-cli autocomplete [SHELL]`
+
+display autocomplete installation instructions
+
+```
+USAGE
+  $ digu-cli autocomplete [SHELL] [-r]
+
+ARGUMENTS
+  SHELL  shell type
+
+FLAGS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+DESCRIPTION
+  display autocomplete installation instructions
+
+EXAMPLES
+  $ digu-cli autocomplete
+
+  $ digu-cli autocomplete bash
+
+  $ digu-cli autocomplete zsh
+
+  $ digu-cli autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v2.1.6/src/commands/autocomplete/index.ts)_
+
+## `digu-cli commands`
+
+list all the commands
+
+```
+USAGE
+  $ digu-cli commands [--json] [-h] [--hidden] [--tree] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -h, --help         Show CLI help.
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --hidden           show hidden commands
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
+  --tree             show tree of commands
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  list all the commands
+```
+
+_See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v2.2.11/src/commands/commands.ts)_
 
 ## `digu-cli hello PERSON`
 
@@ -69,7 +133,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/blob/v1.0.3/dist/commands/hello/index.ts)_
+_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/blob/v1.0.4/dist/commands/hello/index.ts)_
 
 ## `digu-cli hello world`
 
@@ -437,6 +501,43 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+## `digu-cli update [CHANNEL]`
+
+update the digu-cli CLI
+
+```
+USAGE
+  $ digu-cli update [CHANNEL] [-a] [-v <value> | -i] [--force]
+
+FLAGS
+  -a, --available        Install a specific version.
+  -i, --interactive      Interactively select version to install. This is ignored if a channel is provided.
+  -v, --version=<value>  Install a specific version.
+  --force                Force a re-download of the requested version.
+
+DESCRIPTION
+  update the digu-cli CLI
+
+EXAMPLES
+  Update to the stable channel:
+
+    $ digu-cli update stable
+
+  Update to a specific version:
+
+    $ digu-cli update --version 1.0.0
+
+  Interactively select version:
+
+    $ digu-cli update --interactive
+
+  See available versions:
+
+    $ digu-cli update --available
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.1.8/src/commands/update.ts)_
 
 ## `digu-cli utils exclude EXCLUSIONFILE`
 
