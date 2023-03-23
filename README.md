@@ -20,7 +20,7 @@ $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/1.0.0 darwin-arm64 node-v18.15.0
+digu-cli/1.0.1 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
