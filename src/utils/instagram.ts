@@ -155,8 +155,8 @@ export async function unfollowCurrentProfile(
     }
   }
 
-  // await page.getByRole("dialog").first().getByText("unfollow").click();
-  // await page.waitForTimeout(3 * 1000);
+  await page.getByRole("dialog").first().getByText("unfollow").click();
+  await page.waitForTimeout(3 * 1000);
   await closeDialog(page);
   await page.waitForTimeout(2 * 1000);
 
