@@ -87,6 +87,12 @@ export async function goToUserProfile(
 	await page.getByRole('link').getByText(userToSearch, { exact: true }).click();
 	await page.waitForTimeout(10 * 1000);
 
+	const isSidebarOpen = await page.getByPlaceholder('search').isVisible();
+	if (isSidebarOpen) {
+		await page.getByRole('link').getByLabel('search').click();
+		await page.waitForTimeout(3 * 1000);
+	}
+
 	if (logMessages) {
 		ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
 	}
