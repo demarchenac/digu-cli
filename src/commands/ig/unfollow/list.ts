@@ -14,6 +14,8 @@ import { messageQueue } from '../../../utils/messages';
 
 const { save: _save, ...igFlags } = flags.ig;
 const sep = ' dicu-cli-leftover ';
+const resetLineCommand = '\u001B[1K\u001B[0G';
+// const resetLineCommand = '\r\u001B[K'; works on mac
 
 export default class Followers extends Command {
 	static description =
@@ -134,10 +136,11 @@ export default class Followers extends Command {
 			const lastMessage = messageQueue.getLastMessage();
 
 			if (lastMessageRequested !== lastMessage && lastMessage !== null) {
-				const resetLineCommand = '\r\u001B[K';
 				process.stdout.write(`${resetLineCommand}${lastMessage}\n`);
 			}
 		});
+
+		progressBar.on('redraw-post', () => process.stdout.write(' | '));
 
 		progressBar.start(total, 0, { toUnfollow: `@`, value: 0, total });
 
@@ -150,8 +153,8 @@ export default class Followers extends Command {
 
 			progressBar.update(userCount, {
 				toUnfollow: `@${user}`,
-				value: 0,
-				total: users.length,
+				value: userCount,
+				total,
 			});
 
 			// since we're doing this in order to avoind sending several requests
