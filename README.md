@@ -20,7 +20,7 @@ $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/0.0.0 darwin-arm64 node-v18.15.0
+digu-cli/1.0.0 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
@@ -29,8 +29,6 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`digu-cli hello PERSON`](#digu-cli-hello-person)
-* [`digu-cli hello world`](#digu-cli-hello-world)
 * [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
 * [`digu-cli plugins`](#digu-cli-plugins)
 * [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
@@ -41,46 +39,6 @@ USAGE
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
 * [`digu-cli plugins update`](#digu-cli-plugins-update)
-
-## `digu-cli hello PERSON`
-
-Say hello
-
-```
-USAGE
-  $ digu-cli hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/blob/v0.0.0/dist/commands/hello/index.ts)_
-
-## `digu-cli hello world`
-
-Say hello world
-
-```
-USAGE
-  $ digu-cli hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ digu-cli hello world
-  hello world! (./src/commands/hello/world.ts)
-```
 
 ## `digu-cli help [COMMANDS]`
 
@@ -120,7 +78,7 @@ EXAMPLES
   $ digu-cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.2/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.3/src/commands/plugins/index.ts)_
 
 ## `digu-cli plugins:install PLUGIN...`
 
