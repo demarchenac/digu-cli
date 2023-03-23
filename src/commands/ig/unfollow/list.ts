@@ -117,7 +117,7 @@ export default class Followers extends Command {
       keepFavorites = false,
     }: { users: string[]; keepFavorites: boolean }
   ): Promise<string[] | null> {
-    const dailyLimit = 5;
+    const dailyLimit = 150;
     const hourlyLimit = 50;
 
     const total = users.length > dailyLimit ? dailyLimit : users.length;
