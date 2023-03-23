@@ -143,7 +143,7 @@ export async function unfollowCurrentProfile(
 			ux.action.stop(`❌ you're not following @${user}'s account`);
 		}
 
-		return;
+		return false;
 	}
 
 	await followingLocator.click();
@@ -164,7 +164,7 @@ export async function unfollowCurrentProfile(
 				ux.action.stop(`❌ @${user}'s account is marked as favorite!`);
 			}
 
-			return;
+			return false;
 		}
 	}
 
@@ -181,6 +181,8 @@ export async function unfollowCurrentProfile(
 	if (!cacheMessagesToQueue) {
 		ux.action.stop(`✅ @${user}'s account has been unfollowed!`);
 	}
+
+	return true;
 }
 
 export async function unfollowUser(
@@ -195,9 +197,11 @@ export async function unfollowUser(
 		userToSearch: user,
 		logMessages: !cacheMessagesToQueue,
 	});
-	await unfollowCurrentProfile(page, {
+	const wasUnfollowed = await unfollowCurrentProfile(page, {
 		user,
 		keepFavorites,
 		cacheMessagesToQueue,
 	});
+
+	return wasUnfollowed;
 }

@@ -157,7 +157,7 @@ export default class Followers extends Command {
 			// since we're doing this in order to avoind sending several requests
 			// in a short amount of time is better of like this.
 			// eslint-disable-next-line no-await-in-loop
-			await navigation.instagram.unfollowUser(page, {
+			const wasUnfollowed = await navigation.instagram.unfollowUser(page, {
 				user,
 				keepFavorites,
 				cacheMessagesToQueue: true,
@@ -167,9 +167,11 @@ export default class Followers extends Command {
 			// follow this limitation, Instagram could ban the user's account, since
 			// an user account should only unfollow up to 60 accounts hourly.
 			// source: https://thepreviewapp.com/instagram-limits/#maximum-following-limit
+			if (wasUnfollowed) {
+				// eslint-disable-next-line no-await-in-loop
+				await page.waitForTimeout((60 / hourlyLimit) * 60 * 1000);
+			}
 
-			// eslint-disable-next-line no-await-in-loop
-			await page.waitForTimeout((60 / hourlyLimit) * 60 * 1000);
 			userIndex++;
 		}
 
