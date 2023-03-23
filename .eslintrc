@@ -1,8 +1,9 @@
 {
 	"extends": ["oclif", "oclif-typescript", "eslint:recommended", "prettier"],
 	"rules": {
-		"radix": ["error", "as-needed"],
 		"no-unused-vars": "off",
+		"radix": ["error", "as-needed"],
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/no-unused-vars": [
 			"error", // or "error"
 			{
