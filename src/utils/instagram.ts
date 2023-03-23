@@ -132,13 +132,9 @@ export async function unfollowCurrentProfile(
 
 	if (!isFollowing) {
 		if (cacheMessagesToQueue) {
-			messageQueue.addMessage(
-				`❌ cannot unfollow @${user}, since you're not following this account`,
-			);
+			messageQueue.addMessage(`❌ you're not following @${user}'s account`);
 		} else {
-			ux.action.stop(
-				`❌ cannot unfollow @${user}, since you're not following this account`,
-			);
+			ux.action.stop(`❌ you're not following @${user}'s account`);
 		}
 
 		return;
