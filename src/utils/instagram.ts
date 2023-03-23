@@ -84,6 +84,23 @@ export async function goToUserProfile(
 	await page.waitForTimeout(3 * 1000);
 	await page.getByPlaceholder('search').fill(userToSearch);
 	await page.waitForTimeout(10 * 1000);
+
+	const userWasFound = await page
+		.getByRole('link')
+		.getByText(userToSearch, { exact: true })
+		.first()
+		.isVisible();
+
+	if (!userWasFound) {
+		if (logMessages) {
+			ux.action.start(`❌ could not find @${userToSearch}'s profile`);
+		} else {
+			messageQueue.addMessage(`❌ could not find @${userToSearch}'s profile`);
+		}
+
+		return null;
+	}
+
 	await page
 		.getByRole('link')
 		.getByText(userToSearch, { exact: true })
@@ -199,10 +216,15 @@ export async function unfollowUser(
 		cacheMessagesToQueue = false,
 	}: { user: string; keepFavorites: boolean; cacheMessagesToQueue: boolean },
 ) {
-	await goToUserProfile(page, {
+	const navigated = await goToUserProfile(page, {
 		userToSearch: user,
 		logMessages: !cacheMessagesToQueue,
 	});
+
+	if (navigated === null) {
+		return false;
+	}
+
 	const wasUnfollowed = await unfollowCurrentProfile(page, {
 		user,
 		keepFavorites,
