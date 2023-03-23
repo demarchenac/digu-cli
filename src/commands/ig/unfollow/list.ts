@@ -15,7 +15,6 @@ import { messageQueue } from '../../../utils/messages';
 const { save: _save, ...igFlags } = flags.ig;
 const sep = ' dicu-cli-leftover ';
 const resetLineCommand = '\u001B[1K\u001B[0G';
-// const resetLineCommand = '\r\u001B[K'; works on mac
 
 export default class Followers extends Command {
 	static description =
