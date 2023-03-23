@@ -1,6 +1,6 @@
 {
 	"name": "digu-cli",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"description": "CLI to interact with an instagram web scrapper in order to automate some tasks",
 	"author": "crdemar@gmail.com",
 	"bin": {
