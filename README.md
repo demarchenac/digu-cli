@@ -29,13 +29,7 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`digu-cli hello PERSON`](#digu-cli-hello-person)
-* [`digu-cli hello world`](#digu-cli-hello-world)
 * [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
-* [`digu-cli ig list followers`](#digu-cli-ig-list-followers)
-* [`digu-cli ig list following`](#digu-cli-ig-list-following)
-* [`digu-cli ig unfollow list USERSFILE`](#digu-cli-ig-unfollow-list-usersfile)
-* [`digu-cli ig unfollow user USERTOUNFOLLOW`](#digu-cli-ig-unfollow-user-usertounfollow)
 * [`digu-cli plugins`](#digu-cli-plugins)
 * [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
 * [`digu-cli plugins:inspect PLUGIN...`](#digu-cli-pluginsinspect-plugin)
@@ -45,47 +39,6 @@ USAGE
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
 * [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
 * [`digu-cli plugins update`](#digu-cli-plugins-update)
-* [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
-
-## `digu-cli hello PERSON`
-
-Say hello
-
-```
-USAGE
-  $ digu-cli hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/blob/v1.0.2/dist/commands/hello/index.ts)_
-
-## `digu-cli hello world`
-
-Say hello world
-
-```
-USAGE
-  $ digu-cli hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ digu-cli hello world
-  hello world! (./src/commands/hello/world.ts)
-```
 
 ## `digu-cli help [COMMANDS]`
 
@@ -106,104 +59,6 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.8/src/commands/help.ts)_
-
-## `digu-cli ig list followers`
-
-Should fetch a list of the accounts that are following the provided user
-
-```
-USAGE
-  $ digu-cli ig list followers [-u <value>] [-p <value>] [-s] [-v]
-
-FLAGS
-  -p, --password=<value>  User's password.
-  -s, --save              Whether or not this list should be saved.
-  -u, --user=<value>      User's account.
-  -v, --viewBrowser       Wether or not the browser should open in a headless manner
-
-DESCRIPTION
-  Should fetch a list of the accounts that are following the provided user
-
-EXAMPLES
-  $ digu-cli ig list followers (this way the CLI will ask relevant info it may need)
-
-  $ digu-cli ig list followers -u <username> -p <password> -s
-```
-
-## `digu-cli ig list following`
-
-Should fetch a list of the accounts that the provided user follows
-
-```
-USAGE
-  $ digu-cli ig list following [-u <value>] [-p <value>] [-s] [-v]
-
-FLAGS
-  -p, --password=<value>  User's password.
-  -s, --save              Whether or not this list should be saved.
-  -u, --user=<value>      User's account.
-  -v, --viewBrowser       Wether or not the browser should open in a headless manner
-
-DESCRIPTION
-  Should fetch a list of the accounts that the provided user follows
-
-EXAMPLES
-  $ digu-cli ig list following (this way the CLI will ask relevant info it may need)
-
-  $ digu-cli ig list following -u <username> -p <password> -s
-```
-
-## `digu-cli ig unfollow list USERSFILE`
-
-Should unfollow the specified @users from the unfollow list at the from the account provided.
-
-```
-USAGE
-  $ digu-cli ig unfollow list USERSFILE [-u <value>] [-p <value>] [-v] [--keepFavorites]
-
-ARGUMENTS
-  USERSFILE  Json file containing a list of @users
-
-FLAGS
-  -p, --password=<value>  User's password.
-  -u, --user=<value>      User's account.
-  -v, --viewBrowser       Wether or not the browser should open in a headless manner
-  --keepFavorites         This flag avoid unfollowing accounts that your profile has marked as favorite
-
-DESCRIPTION
-  Should unfollow the specified @users from the unfollow list at the from the account provided.
-
-EXAMPLES
-  $ digu-cli ig unfollow list <JSON file with a list of @users to unfollow> (this way the CLI will ask relevant info it may need)
-
-  $ digu-cli ig unfollow list <JSON file with a list of @users to unfollow> -u <username> -p <password>
-```
-
-## `digu-cli ig unfollow user USERTOUNFOLLOW`
-
-Should unfollow the specified @user from the account provided.
-
-```
-USAGE
-  $ digu-cli ig unfollow user USERTOUNFOLLOW [-u <value>] [-p <value>] [-v] [--keepFavorites]
-
-ARGUMENTS
-  USERTOUNFOLLOW  the user tag that must be unfollowed
-
-FLAGS
-  -p, --password=<value>  User's password.
-  -u, --user=<value>      User's account.
-  -v, --viewBrowser       Wether or not the browser should open in a headless manner
-  --keepFavorites
-
-DESCRIPTION
-  Should unfollow the specified @user from the account provided.
-
-EXAMPLES
-  $ digu-cli ig unfollow user <@userToUnfollow> (this way the CLI will ask relevant info it may need)
-
-  $ digu-cli ig unfollow user <@userToUnfollow> -u <username> -p <password>
-```
 
 ## `digu-cli plugins`
 
@@ -436,27 +291,5 @@ FLAGS
 
 DESCRIPTION
   Update installed plugins.
-```
-
-## `digu-cli utils exclude EXCLUSIONFILE`
-
-Should exclude a list from another one
-
-```
-USAGE
-  $ digu-cli utils exclude EXCLUSIONFILE -f <value> [-o <value>]
-
-ARGUMENTS
-  EXCLUSIONFILE  List in json format used to remove from --from list
-
-FLAGS
-  -f, --fromFile=<value>    (required) Source list to modify
-  -o, --outputFile=<value>  Output filename
-
-DESCRIPTION
-  Should exclude a list from another one
-
-EXAMPLES
-  $ digu-cli utils exclude <exclusion_list> -f <source_list>
 ```
 <!-- commandsstop -->
