@@ -28,7 +28,7 @@ hello friend from oclif! (./src/commands/hello/index.ts)
     const { args, flags } = await this.parse(Hello);
 
     this.log(
-      `${flags.from} greets ${args.person}! (./src/commands/hello/index.ts)`
+      `hello ${args.person} from ${flags.from}! (./src/commands/hello/index.ts)`
     );
   }
 }

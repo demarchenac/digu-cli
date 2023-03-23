@@ -14,8 +14,6 @@ hello world! (./src/commands/hello/world.ts)
   static args = {};
 
   async run(): Promise<void> {
-    this.log(
-      "This is the world subcommand on the hello command! (./src/commands/hello/world.ts)"
-    );
+    this.log("hello world! (./src/commands/hello/world.ts)");
   }
 }
