@@ -84,7 +84,11 @@ export async function goToUserProfile(
 	await page.waitForTimeout(3 * 1000);
 	await page.getByPlaceholder('search').fill(userToSearch);
 	await page.waitForTimeout(10 * 1000);
-	await page.getByRole('link').getByText(userToSearch, { exact: true }).click();
+	await page
+		.getByRole('link')
+		.getByText(userToSearch, { exact: true })
+		.first()
+		.click();
 	await page.waitForTimeout(10 * 1000);
 
 	const isSidebarOpen = await page.getByPlaceholder('search').isVisible();
