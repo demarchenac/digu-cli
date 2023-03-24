@@ -6,10 +6,10 @@
 	"bin": {
 		"digu-cli": "./bin/run"
 	},
-	"homepage": "https://github.com/https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli",
+	"homepage": "https://github.com/demarchenac/digu-cli",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"repository": "https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli",
+	"repository": "https://github.com/demarchenac/digu-cli",
 	"files": [
 		"/bin",
 		"/dist",
@@ -76,9 +76,15 @@
 	"engines": {
 		"node": ">=12.0.0"
 	},
-	"bugs": "https://github.com/https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/issues",
+	"bugs": "https://github.com/demarchenac/digu-cli/issues",
 	"keywords": [
-		"oclif"
+		"oclif",
+		"web scrapper",
+		"playwright",
+		"cli",
+		"bot",
+		"instagram",
+		"automation"
 	],
 	"types": "dist/index.d.ts"
 }

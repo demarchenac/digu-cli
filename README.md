@@ -1,20 +1,25 @@
-oclif-hello-world
-=================
+# digu-cli
 
-oclif example Hello World CLI
+This package is a CLI with the capabilities to automate some instagram related tasks such as unfollowing accounts.
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
-[![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
+[![bootstraped with oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+[![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/digu-cli)
+
+<!-- [![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main) -->
+
+[![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/digu-cli)
+[![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/demarchenac/digu-cli/blob/main/LICENSE)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g digu-cli
 $ digu-cli COMMAND
@@ -26,29 +31,33 @@ USAGE
   $ digu-cli COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`digu-cli autocomplete [SHELL]`](#digu-cli-autocomplete-shell)
-* [`digu-cli commands`](#digu-cli-commands)
-* [`digu-cli hello PERSON`](#digu-cli-hello-person)
-* [`digu-cli hello world`](#digu-cli-hello-world)
-* [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
-* [`digu-cli ig list followers`](#digu-cli-ig-list-followers)
-* [`digu-cli ig list following`](#digu-cli-ig-list-following)
-* [`digu-cli ig unfollow list USERSFILE`](#digu-cli-ig-unfollow-list-usersfile)
-* [`digu-cli ig unfollow user USERTOUNFOLLOW`](#digu-cli-ig-unfollow-user-usertounfollow)
-* [`digu-cli plugins`](#digu-cli-plugins)
-* [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
-* [`digu-cli plugins:inspect PLUGIN...`](#digu-cli-pluginsinspect-plugin)
-* [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin-1)
-* [`digu-cli plugins:link PLUGIN`](#digu-cli-pluginslink-plugin)
-* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin)
-* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
-* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
-* [`digu-cli plugins update`](#digu-cli-plugins-update)
-* [`digu-cli update [CHANNEL]`](#digu-cli-update-channel)
-* [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
+
+- [`digu-cli autocomplete [SHELL]`](#digu-cli-autocomplete-shell)
+- [`digu-cli commands`](#digu-cli-commands)
+- [`digu-cli hello PERSON`](#digu-cli-hello-person)
+- [`digu-cli hello world`](#digu-cli-hello-world)
+- [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
+- [`digu-cli ig list followers`](#digu-cli-ig-list-followers)
+- [`digu-cli ig list following`](#digu-cli-ig-list-following)
+- [`digu-cli ig unfollow list USERSFILE`](#digu-cli-ig-unfollow-list-usersfile)
+- [`digu-cli ig unfollow user USERTOUNFOLLOW`](#digu-cli-ig-unfollow-user-usertounfollow)
+- [`digu-cli plugins`](#digu-cli-plugins)
+- [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
+- [`digu-cli plugins:inspect PLUGIN...`](#digu-cli-pluginsinspect-plugin)
+- [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin-1)
+- [`digu-cli plugins:link PLUGIN`](#digu-cli-pluginslink-plugin)
+- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin)
+- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
+- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
+- [`digu-cli plugins update`](#digu-cli-plugins-update)
+- [`digu-cli update [CHANNEL]`](#digu-cli-update-channel)
+- [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
 
 ## `digu-cli autocomplete [SHELL]`
 
@@ -320,7 +329,7 @@ ALIASES
   $ digu-cli plugins add
 
 EXAMPLES
-  $ digu-cli plugins:install myplugin 
+  $ digu-cli plugins:install myplugin
 
   $ digu-cli plugins:install https://github.com/someuser/someplugin
 
@@ -383,7 +392,7 @@ ALIASES
   $ digu-cli plugins add
 
 EXAMPLES
-  $ digu-cli plugins:install myplugin 
+  $ digu-cli plugins:install myplugin
 
   $ digu-cli plugins:install https://github.com/someuser/someplugin
 
@@ -560,4 +569,5 @@ DESCRIPTION
 EXAMPLES
   $ digu-cli utils exclude <exclusion_list> -f <source_list>
 ```
+
 <!-- commandsstop -->
