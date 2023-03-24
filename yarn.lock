@@ -604,7 +604,7 @@
     lodash "^4.17.21"
     semver "^7.3.8"
 
-"@oclif/test@^2.3.10":
+"@oclif/test@^2.3.11":
   version "2.3.11"
   resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.11.tgz#efb268b2313bfe89c0ceee08497cbca8fc8f7b3d"
   integrity sha512-QZGhAla1+lfXGJfzB/7yMs1rtdjmHFuu9prBxuT6yHKXTIdi5vwqDZKKzlZzJhtNLe+37ub/Z7uk0zT7dXbhBA==
