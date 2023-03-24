@@ -61,7 +61,8 @@ export default class Followers extends Command {
 			};
 			const todayFormatted = `${todayInfo.year}-${todayInfo.month}-${todayInfo.date}`;
 
-			const timestamp = new Date(filename.split(sep)[1].replace('.json', ''));
+			const time = Number.parseInt(filename.split(sep)[1].replace('.json', ''));
+			const timestamp = new Date(time);
 			const timestampInfo = {
 				year: timestamp.getFullYear(),
 				month: (timestamp.getMonth() + 1).toString().padStart(2, '0'),
@@ -193,11 +194,11 @@ export default class Followers extends Command {
 	}
 
 	saveRemainingUsers(filename: string, users: string[]) {
-		const timestamp = new Date().toISOString();
+		const timestamp = Date.now();
 		let newFilename = filename.replace('.json', `${sep}${timestamp}.json`);
 
 		if (filename.includes(sep)) {
-			newFilename = filename.split(sep)[1] + `${sep}${timestamp}.json`;
+			newFilename = filename.split(sep)[0] + `${sep}${timestamp}.json`;
 		}
 
 		const filePath = join(process.cwd(), newFilename);
