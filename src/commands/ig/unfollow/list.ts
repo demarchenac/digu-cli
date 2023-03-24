@@ -196,9 +196,8 @@ export default class Followers extends Command {
 		const timestamp = new Date().toISOString();
 		let newFilename = filename.replace('.json', `${sep}${timestamp}.json`);
 
-		if (filename.includes(' dicu-cli-leftover ')) {
-			newFilename =
-				filename.split(' dicu-cli-leftover ')[1] + `${sep}${timestamp}.json`;
+		if (filename.includes(sep)) {
+			newFilename = filename.split(sep)[1] + `${sep}${timestamp}.json`;
 		}
 
 		const filePath = join(process.cwd(), newFilename);
@@ -210,7 +209,16 @@ export default class Followers extends Command {
 
 		// save leftovers & erase original file.
 		writeFileSync(filePath, json, 'utf-8');
-		unlinkSync(join(process.cwd(), filename));
+
+		// remove the original
+		this.log(`\tℹ️ Trying to remove original file ${filename}`);
+		const oldFilePath = join(process.cwd(), filename);
+		if (existsSync(oldFilePath)) {
+			unlinkSync(oldFilePath);
+			this.log(`\t✅ Removed original file ${filename}`);
+		} else {
+			this.log(`\t❌ Could not remove original file ${filename}`);
+		}
 	}
 
 	async run(): Promise<void> {
