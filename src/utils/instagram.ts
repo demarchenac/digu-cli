@@ -84,12 +84,52 @@ export async function goToUserProfile(
 	await page.waitForTimeout(3 * 1000);
 	await page.getByPlaceholder('search').fill(userToSearch);
 	await page.waitForTimeout(10 * 1000);
-	await page.getByRole('link').getByText(userToSearch, { exact: true }).click();
+
+	const userWasFound = await page
+		.getByRole('link')
+		.getByText(userToSearch, { exact: true })
+		.first()
+		.isVisible();
+
+	if (!userWasFound) {
+		if (logMessages) {
+			ux.action.start(`❌ could not find @${userToSearch}'s profile`);
+		} else {
+			messageQueue.addMessage(`❌ could not find @${userToSearch}'s profile`);
+		}
+
+		await page.getByRole('link').getByLabel('search').click();
+		await page.waitForTimeout(3 * 1000);
+
+		return null;
+	}
+
+	await page
+		.getByRole('link')
+		.getByText(userToSearch, { exact: true })
+		.first()
+		.click();
 	await page.waitForTimeout(10 * 1000);
+
+	const isSidebarOpen = await page.getByPlaceholder('search').isVisible();
+	if (isSidebarOpen) {
+		await page.getByRole('link').getByLabel('search').click();
+		await page.waitForTimeout(3 * 1000);
+	}
 
 	if (logMessages) {
 		ux.action.stop(`✅ viewing @${userToSearch}'s profile`);
 	}
+}
+
+async function isDialogCloseButtonVisible(page: Page) {
+	const isButtonVisible = await page
+		.getByRole('dialog')
+		.getByRole('button')
+		.getByRole('img', { name: 'Close', exact: true })
+		.isVisible();
+
+	return isButtonVisible;
 }
 
 async function closeDialog(page: Page) {
@@ -122,16 +162,12 @@ export async function unfollowCurrentProfile(
 
 	if (!isFollowing) {
 		if (cacheMessagesToQueue) {
-			messageQueue.addMessage(
-				`❌ cannot unfollow @${user}, since you're not following this account`,
-			);
+			messageQueue.addMessage(`❌ you're not following @${user}'s account`);
 		} else {
-			ux.action.stop(
-				`❌ cannot unfollow @${user}, since you're not following this account`,
-			);
+			ux.action.stop(`❌ you're not following @${user}'s account`);
 		}
 
-		return;
+		return false;
 	}
 
 	await followingLocator.click();
@@ -152,18 +188,27 @@ export async function unfollowCurrentProfile(
 				ux.action.stop(`❌ @${user}'s account is marked as favorite!`);
 			}
 
-			return;
+			return false;
 		}
 	}
 
 	await page.getByRole('dialog').first().getByText('unfollow').click();
 	await page.waitForTimeout(3 * 1000);
-	await closeDialog(page);
+
+	const dialogIsStillOpen = await isDialogCloseButtonVisible(page);
+	if (dialogIsStillOpen) {
+		await closeDialog(page);
+	}
+
 	await page.waitForTimeout(2 * 1000);
 
-	if (!cacheMessagesToQueue) {
+	if (cacheMessagesToQueue) {
+		messageQueue.addMessage(`✅ @${user}'s account has been unfollowed!`);
+	} else {
 		ux.action.stop(`✅ @${user}'s account has been unfollowed!`);
 	}
+
+	return true;
 }
 
 export async function unfollowUser(
@@ -174,13 +219,20 @@ export async function unfollowUser(
 		cacheMessagesToQueue = false,
 	}: { user: string; keepFavorites: boolean; cacheMessagesToQueue: boolean },
 ) {
-	await goToUserProfile(page, {
+	const navigated = await goToUserProfile(page, {
 		userToSearch: user,
 		logMessages: !cacheMessagesToQueue,
 	});
-	await unfollowCurrentProfile(page, {
+
+	if (navigated === null) {
+		return false;
+	}
+
+	const wasUnfollowed = await unfollowCurrentProfile(page, {
 		user,
 		keepFavorites,
 		cacheMessagesToQueue,
 	});
+
+	return wasUnfollowed;
 }

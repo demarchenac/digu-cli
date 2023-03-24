@@ -1,74 +1,90 @@
 {
-  "name": "digu-cli",
-  "version": "1.0.0",
-  "description": "CLI to interact with an instagram web scrapper in order to automate some tasks",
-  "author": "crdemar@gmail.com",
-  "bin": {
-    "digu-cli": "./bin/run"
-  },
-  "homepage": "https://github.com/https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "repository": "https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli",
-  "files": [
-    "/bin",
-    "/dist",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json"
-  ],
-  "dependencies": {
-    "@oclif/core": "^2",
-    "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^2.4.2",
-    "playwright": "^1.31.2"
-  },
-  "devDependencies": {
-    "@oclif/test": "^2.3.10",
-    "@types/chai": "^4",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.18.16",
-    "chai": "^4",
-    "eslint": "^7.32.0",
-    "eslint-config-oclif": "^4",
-    "eslint-config-oclif-typescript": "^1.0.3",
-    "eslint-config-prettier": "^8.8.0",
-    "mocha": "^9",
-    "oclif": "^3",
-    "shx": "^0.3.3",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.5.0",
-    "typescript": "^4.9.5"
-  },
-  "oclif": {
-    "bin": "digu-cli",
-    "dirname": "digu-cli",
-    "commands": "./dist/commands",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
-    ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
-  },
-  "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint . --ext .ts --config .eslintrc",
-    "postpack": "shx rm -f oclif.manifest.json",
-    "posttest": "yarn lint",
-    "prepack": "yarn build && oclif manifest && oclif readme",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
-  },
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "bugs": "https://github.com/https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/issues",
-  "keywords": [
-    "oclif"
-  ],
-  "types": "dist/index.d.ts"
+	"name": "digu-cli",
+	"version": "1.0.16",
+	"description": "CLI to interact with an instagram web scrapper in order to automate some tasks",
+	"author": "crdemar@gmail.com",
+	"bin": {
+		"digu-cli": "./bin/run"
+	},
+	"homepage": "https://github.com/demarchenac/digu-cli",
+	"license": "MIT",
+	"main": "dist/index.js",
+	"repository": "https://github.com/demarchenac/digu-cli",
+	"files": [
+		"/bin",
+		"/dist",
+		"/npm-shrinkwrap.json",
+		"/oclif.manifest.json"
+	],
+	"dependencies": {
+		"@oclif/core": "^2",
+		"@oclif/plugin-autocomplete": "^2.1.6",
+		"@oclif/plugin-commands": "^2.2.11",
+		"@oclif/plugin-help": "^5",
+		"@oclif/plugin-not-found": "^2.3.22",
+		"@oclif/plugin-plugins": "^2.4.2",
+		"@oclif/plugin-update": "^3.1.8",
+		"@oclif/plugin-warn-if-update-available": "^2.0.32",
+		"playwright": "^1.31.2"
+	},
+	"devDependencies": {
+		"@oclif/test": "^2.3.10",
+		"@types/chai": "^4",
+		"@types/mocha": "^9.0.0",
+		"@types/node": "^16.18.16",
+		"chai": "^4",
+		"eslint": "^7.32.0",
+		"eslint-config-oclif": "^4",
+		"eslint-config-oclif-typescript": "^1.0.3",
+		"eslint-config-prettier": "^8.8.0",
+		"mocha": "^9",
+		"oclif": "^3",
+		"shx": "^0.3.3",
+		"ts-node": "^10.9.1",
+		"tslib": "^2.5.0",
+		"typescript": "^4.9.5"
+	},
+	"oclif": {
+		"bin": "digu-cli",
+		"dirname": "digu-cli",
+		"commands": "./dist/commands",
+		"plugins": [
+			"@oclif/plugin-autocomplete",
+			"@oclif/plugin-commands",
+			"@oclif/plugin-help",
+			"@oclif/plugin-not-found",
+			"@oclif/plugin-plugins",
+			"@oclif/plugin-update",
+			"@oclif/plugin-warn-if-update-available"
+		],
+		"topicSeparator": " ",
+		"topics": {
+			"hello": {
+				"description": "Say hello to the world and others"
+			}
+		}
+	},
+	"scripts": {
+		"build": "shx rm -rf dist && tsc -b",
+		"lint": "eslint . --ext .ts --config .eslintrc",
+		"postpack": "shx rm -f oclif.manifest.json",
+		"posttest": "yarn lint",
+		"prepack": "yarn build && oclif manifest && oclif readme",
+		"test": "mocha --forbid-only \"test/**/*.test.ts\"",
+		"version": "oclif readme && git add README.md"
+	},
+	"engines": {
+		"node": ">=12.0.0"
+	},
+	"bugs": "https://github.com/demarchenac/digu-cli/issues",
+	"keywords": [
+		"oclif",
+		"web scrapper",
+		"playwright",
+		"cli",
+		"bot",
+		"instagram",
+		"automation"
+	],
+	"types": "dist/index.d.ts"
 }

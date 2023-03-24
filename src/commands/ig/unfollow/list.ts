@@ -14,6 +14,7 @@ import { messageQueue } from '../../../utils/messages';
 
 const { save: _save, ...igFlags } = flags.ig;
 const sep = ' dicu-cli-leftover ';
+const resetLineCommand = '\u001B[1K\u001B[0G';
 
 export default class Followers extends Command {
 	static description =
@@ -60,7 +61,8 @@ export default class Followers extends Command {
 			};
 			const todayFormatted = `${todayInfo.year}-${todayInfo.month}-${todayInfo.date}`;
 
-			const timestamp = new Date(filename.split(sep)[1].replace('.json', ''));
+			const time = Number.parseInt(filename.split(sep)[1].replace('.json', ''));
+			const timestamp = new Date(time);
 			const timestampInfo = {
 				year: timestamp.getFullYear(),
 				month: (timestamp.getMonth() + 1).toString().padStart(2, '0'),
@@ -134,10 +136,11 @@ export default class Followers extends Command {
 			const lastMessage = messageQueue.getLastMessage();
 
 			if (lastMessageRequested !== lastMessage && lastMessage !== null) {
-				const resetLineCommand = '\r\u001B[K';
 				process.stdout.write(`${resetLineCommand}${lastMessage}\n`);
 			}
 		});
+
+		progressBar.on('redraw-post', () => process.stdout.write(' | '));
 
 		progressBar.start(total, 0, { toUnfollow: `@`, value: 0, total });
 
@@ -150,14 +153,14 @@ export default class Followers extends Command {
 
 			progressBar.update(userCount, {
 				toUnfollow: `@${user}`,
-				value: 0,
-				total: users.length,
+				value: userCount,
+				total,
 			});
 
 			// since we're doing this in order to avoind sending several requests
 			// in a short amount of time is better of like this.
 			// eslint-disable-next-line no-await-in-loop
-			await navigation.instagram.unfollowUser(page, {
+			const wasUnfollowed = await navigation.instagram.unfollowUser(page, {
 				user,
 				keepFavorites,
 				cacheMessagesToQueue: true,
@@ -167,9 +170,11 @@ export default class Followers extends Command {
 			// follow this limitation, Instagram could ban the user's account, since
 			// an user account should only unfollow up to 60 accounts hourly.
 			// source: https://thepreviewapp.com/instagram-limits/#maximum-following-limit
+			if (wasUnfollowed) {
+				// eslint-disable-next-line no-await-in-loop
+				await page.waitForTimeout((60 / hourlyLimit) * 60 * 1000);
+			}
 
-			// eslint-disable-next-line no-await-in-loop
-			await page.waitForTimeout((60 / hourlyLimit) * 60 * 1000);
 			userIndex++;
 		}
 
@@ -189,12 +194,11 @@ export default class Followers extends Command {
 	}
 
 	saveRemainingUsers(filename: string, users: string[]) {
-		const timestamp = new Date().toISOString();
+		const timestamp = Date.now();
 		let newFilename = filename.replace('.json', `${sep}${timestamp}.json`);
 
-		if (filename.includes(' dicu-cli-leftover ')) {
-			newFilename =
-				filename.split(' dicu-cli-leftover ')[1] + `${sep}${timestamp}.json`;
+		if (filename.includes(sep)) {
+			newFilename = filename.split(sep)[0] + `${sep}${timestamp}.json`;
 		}
 
 		const filePath = join(process.cwd(), newFilename);
@@ -206,7 +210,16 @@ export default class Followers extends Command {
 
 		// save leftovers & erase original file.
 		writeFileSync(filePath, json, 'utf-8');
-		unlinkSync(join(process.cwd(), filename));
+
+		// remove the original
+		this.log(`\tℹ️ Trying to remove original file ${filename}`);
+		const oldFilePath = join(process.cwd(), filename);
+		if (existsSync(oldFilePath)) {
+			unlinkSync(oldFilePath);
+			this.log(`\t✅ Removed original file ${filename}`);
+		} else {
+			this.log(`\t❌ Could not remove original file ${filename}`);
+		}
 	}
 
 	async run(): Promise<void> {
