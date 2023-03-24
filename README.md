@@ -11,53 +11,50 @@ This package is a CLI with the capabilities to automate some instagram related t
 [![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/demarchenac/digu-cli/blob/main/LICENSE)
 
 <!-- toc -->
-
-- [Usage](#usage)
-- [Commands](#commands)
+* [digu-cli](#digu-cli)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/1.0.15 darwin-arm64 node-v18.15.0
+digu-cli/1.0.16 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`digu-cli autocomplete [SHELL]`](#digu-cli-autocomplete-shell)
-- [`digu-cli commands`](#digu-cli-commands)
-- [`digu-cli hello PERSON`](#digu-cli-hello-person)
-- [`digu-cli hello world`](#digu-cli-hello-world)
-- [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
-- [`digu-cli ig list followers`](#digu-cli-ig-list-followers)
-- [`digu-cli ig list following`](#digu-cli-ig-list-following)
-- [`digu-cli ig unfollow list USERSFILE`](#digu-cli-ig-unfollow-list-usersfile)
-- [`digu-cli ig unfollow user USERTOUNFOLLOW`](#digu-cli-ig-unfollow-user-usertounfollow)
-- [`digu-cli plugins`](#digu-cli-plugins)
-- [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
-- [`digu-cli plugins:inspect PLUGIN...`](#digu-cli-pluginsinspect-plugin)
-- [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin-1)
-- [`digu-cli plugins:link PLUGIN`](#digu-cli-pluginslink-plugin)
-- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin)
-- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
-- [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
-- [`digu-cli plugins update`](#digu-cli-plugins-update)
-- [`digu-cli update [CHANNEL]`](#digu-cli-update-channel)
-- [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
+* [`digu-cli autocomplete [SHELL]`](#digu-cli-autocomplete-shell)
+* [`digu-cli commands`](#digu-cli-commands)
+* [`digu-cli hello PERSON`](#digu-cli-hello-person)
+* [`digu-cli hello world`](#digu-cli-hello-world)
+* [`digu-cli help [COMMANDS]`](#digu-cli-help-commands)
+* [`digu-cli ig list followers`](#digu-cli-ig-list-followers)
+* [`digu-cli ig list following`](#digu-cli-ig-list-following)
+* [`digu-cli ig unfollow list USERSFILE`](#digu-cli-ig-unfollow-list-usersfile)
+* [`digu-cli ig unfollow user USERTOUNFOLLOW`](#digu-cli-ig-unfollow-user-usertounfollow)
+* [`digu-cli plugins`](#digu-cli-plugins)
+* [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin)
+* [`digu-cli plugins:inspect PLUGIN...`](#digu-cli-pluginsinspect-plugin)
+* [`digu-cli plugins:install PLUGIN...`](#digu-cli-pluginsinstall-plugin-1)
+* [`digu-cli plugins:link PLUGIN`](#digu-cli-pluginslink-plugin)
+* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin)
+* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-1)
+* [`digu-cli plugins:uninstall PLUGIN...`](#digu-cli-pluginsuninstall-plugin-2)
+* [`digu-cli plugins update`](#digu-cli-plugins-update)
+* [`digu-cli update [CHANNEL]`](#digu-cli-update-channel)
+* [`digu-cli utils exclude EXCLUSIONFILE`](#digu-cli-utils-exclude-exclusionfile)
 
 ## `digu-cli autocomplete [SHELL]`
 
@@ -142,7 +139,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/https://github.com/demarchenac/digu-cli/blob/v1.0.15/dist/commands/hello/index.ts)_
+_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/blob/v1.0.16/dist/commands/hello/index.ts)_
 
 ## `digu-cli hello world`
 
@@ -329,7 +326,7 @@ ALIASES
   $ digu-cli plugins add
 
 EXAMPLES
-  $ digu-cli plugins:install myplugin
+  $ digu-cli plugins:install myplugin 
 
   $ digu-cli plugins:install https://github.com/someuser/someplugin
 
@@ -392,7 +389,7 @@ ALIASES
   $ digu-cli plugins add
 
 EXAMPLES
-  $ digu-cli plugins:install myplugin
+  $ digu-cli plugins:install myplugin 
 
   $ digu-cli plugins:install https://github.com/someuser/someplugin
 
@@ -569,5 +566,4 @@ DESCRIPTION
 EXAMPLES
   $ digu-cli utils exclude <exclusion_list> -f <source_list>
 ```
-
 <!-- commandsstop -->
