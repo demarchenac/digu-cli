@@ -556,7 +556,7 @@
     fast-levenshtein "^3.0.0"
     lodash "^4.17.21"
 
-"@oclif/plugin-plugins@^2.4.2":
+"@oclif/plugin-plugins@^2.4.3":
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-plugins/-/plugin-plugins-2.4.3.tgz#b95684d7458f1c3e51a1a98bb0224b474cd57c0e"
   integrity sha512-dkbzijBkWVCwETQHFIsWTyjX4Sfk8qF6LoWSb5jE6drwlYd89YcrneMLEYn3Fbs/vKUUjxDhO1wFwAatibbHGw==
