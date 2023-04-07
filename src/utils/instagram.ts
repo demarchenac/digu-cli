@@ -23,7 +23,7 @@ export async function login(page: Page, { user, password }: Credentials) {
 	await page.waitForTimeout(3000);
 
 	await page.getByText('Log in', { exact: true }).click();
-	await page.waitForTimeout(3000);
+	await page.waitForTimeout(5 * 1000);
 
 	const hasLoginError = await page.getByText(loginError).isVisible();
 
@@ -33,6 +33,17 @@ export async function login(page: Page, { user, password }: Credentials) {
 		);
 		const error: LoginError = { ...baseError, type: 'login_error' };
 		throw error;
+	}
+
+	// handle 2FA if enabled.
+	const has2FAEnabled = await page.getByLabel('Security Code').isVisible();
+	if (has2FAEnabled) {
+		ux.action.stop('⚠️ Partially logged in, 2FA security code is required!');
+		const securityCode = await ux.prompt('- 2FA code');
+
+		ux.action.start('Redirecting user to home page');
+		await page.getByLabel('Security Code').fill(securityCode);
+		await page.getByRole('button').getByText('Confirm').click();
 	}
 
 	try {
