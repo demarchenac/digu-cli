@@ -129,6 +129,33 @@ export async function goToUserProfile(
 		.click();
 	await page.waitForTimeout(10 * 1000);
 
+	// check if user profile loaded correctly.
+	const hasErrorImg = await page.getByLabel('Error').isVisible();
+	const hasErrorTitle = await page
+		.getByText('Something went wrong')
+		.isVisible();
+	const hasErrorDescription = await page
+		.getByText(`There's an issue and the page could not be loaded.`)
+		.isVisible();
+	const hasReloadBtn = await page
+		.getByRole('button')
+		.getByText('Reload page')
+		.isVisible();
+
+	if (hasErrorImg && hasErrorTitle && hasErrorDescription && hasReloadBtn) {
+		// on error page we cannot search so we would go to the previous visited
+		// page.
+		await page.goBack();
+		await page.waitForTimeout(3 * 1000);
+		if (logMessages) {
+			ux.action.stop(`❌ could not load @${userToSearch}'s profile`);
+		} else {
+			messageQueue.addMessage(`❌ could not load @${userToSearch}'s profile`);
+		}
+
+		return null;
+	}
+
 	const isSidebarOpen = await page.getByPlaceholder('search').isVisible();
 	if (isSidebarOpen) {
 		await page.getByRole('link').getByLabel('search').click();
