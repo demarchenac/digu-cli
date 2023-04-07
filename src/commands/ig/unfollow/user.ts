@@ -8,6 +8,7 @@ import type {
 	Credentials,
 	OptionalCredentials,
 } from '../../../types/credentials';
+import { LoginError } from '../../../utils/instagram';
 
 const { save: _save, ...igFlags } = flags.ig;
 
@@ -48,8 +49,11 @@ export default class Followers extends Command {
 		try {
 			await navigation.instagram.login(page, credentials);
 		} catch (error_) {
-			const error = error_ as Error;
-			this.log(error.message);
+			const error = error_ as LoginError;
+			this.log(`❌ Error: ${error.message}`);
+			if (error.type === 'login_error') {
+				throw error;
+			}
 		}
 	}
 
@@ -65,17 +69,24 @@ export default class Followers extends Command {
 	}
 
 	async run(): Promise<void> {
-		const { args, flags } = await this.parse(Followers);
-		const { viewBrowser, keepFavorites } = flags;
+		try {
+			const { args, flags } = await this.parse(Followers);
+			const { viewBrowser, keepFavorites } = flags;
 
-		const credentials = await this.ensureCredentials(flags);
+			const credentials = await this.ensureCredentials(flags);
 
-		const browser = await chromium.launch({ headless: !viewBrowser });
-		const page = await browser.newPage();
+			const browser = await chromium.launch({ headless: !viewBrowser });
+			const page = await browser.newPage();
 
-		await this.login(page, credentials);
-		await this.unfollowUser(page, { user: args.userToUnfollow, keepFavorites });
+			await this.login(page, credentials);
+			await this.unfollowUser(page, {
+				user: args.userToUnfollow,
+				keepFavorites,
+			});
 
-		await browser.close();
+			await browser.close();
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }

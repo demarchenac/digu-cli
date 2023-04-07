@@ -3,6 +3,13 @@ import { Page } from 'playwright';
 import type { Credentials } from '../types/credentials';
 import { messageQueue } from './messages';
 
+const loginError =
+	'There was a problem logging you into Instagram. Please try again soon.';
+
+export type LoginError = Error & {
+	type: 'login_error';
+};
+
 export async function login(page: Page, { user, password }: Credentials) {
 	ux.action.start(`Log into @${user}'s account`);
 
@@ -16,6 +23,17 @@ export async function login(page: Page, { user, password }: Credentials) {
 	await page.waitForTimeout(3000);
 
 	await page.getByText('Log in', { exact: true }).click();
+	await page.waitForTimeout(3000);
+
+	const hasLoginError = await page.getByText(loginError).isVisible();
+
+	if (hasLoginError) {
+		const baseError = new Error(
+			`Could not log into @${user}'s account...\n   We got the following error:\n\t${loginError}`,
+		);
+		const error: LoginError = { ...baseError, type: 'login_error' };
+		throw error;
+	}
 
 	try {
 		await page.waitForTimeout(10_000);
