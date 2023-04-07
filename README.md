@@ -24,7 +24,7 @@ $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/1.0.17 darwin-arm64 node-v18.15.0
+digu-cli/1.1.0 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
@@ -139,7 +139,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/blob/v1.0.17/dist/commands/hello/index.ts)_
+_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/blob/v1.1.0/dist/commands/hello/index.ts)_
 
 ## `digu-cli hello world`
 
