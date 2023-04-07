@@ -3,6 +3,13 @@ import { Page } from 'playwright';
 import type { Credentials } from '../types/credentials';
 import { messageQueue } from './messages';
 
+const loginError =
+	'There was a problem logging you into Instagram. Please try again soon.';
+
+export type LoginError = Error & {
+	type: 'login_error';
+};
+
 export async function login(page: Page, { user, password }: Credentials) {
 	ux.action.start(`Log into @${user}'s account`);
 
@@ -16,6 +23,17 @@ export async function login(page: Page, { user, password }: Credentials) {
 	await page.waitForTimeout(3000);
 
 	await page.getByText('Log in', { exact: true }).click();
+	await page.waitForTimeout(3000);
+
+	const hasLoginError = await page.getByText(loginError).isVisible();
+
+	if (hasLoginError) {
+		const baseError = new Error(
+			`Could not log into @${user}'s account...\n   We got the following error:\n\t${loginError}`,
+		);
+		const error: LoginError = { ...baseError, type: 'login_error' };
+		throw error;
+	}
 
 	try {
 		await page.waitForTimeout(10_000);
@@ -110,6 +128,33 @@ export async function goToUserProfile(
 		.first()
 		.click();
 	await page.waitForTimeout(10 * 1000);
+
+	// check if user profile loaded correctly.
+	const hasErrorImg = await page.getByLabel('Error').isVisible();
+	const hasErrorTitle = await page
+		.getByText('Something went wrong')
+		.isVisible();
+	const hasErrorDescription = await page
+		.getByText(`There's an issue and the page could not be loaded.`)
+		.isVisible();
+	const hasReloadBtn = await page
+		.getByRole('button')
+		.getByText('Reload page')
+		.isVisible();
+
+	if (hasErrorImg && hasErrorTitle && hasErrorDescription && hasReloadBtn) {
+		// on error page we cannot search so we would go to the previous visited
+		// page.
+		await page.goBack();
+		await page.waitForTimeout(3 * 1000);
+		if (logMessages) {
+			ux.action.stop(`❌ could not load @${userToSearch}'s profile`);
+		} else {
+			messageQueue.addMessage(`❌ could not load @${userToSearch}'s profile`);
+		}
+
+		return null;
+	}
 
 	const isSidebarOpen = await page.getByPlaceholder('search').isVisible();
 	if (isSidebarOpen) {
