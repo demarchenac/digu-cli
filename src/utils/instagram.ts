@@ -6,6 +6,8 @@ import { messageQueue } from './messages';
 const loginError =
 	'There was a problem logging you into Instagram. Please try again soon.';
 
+const instragramURL = 'https://www.instagram.com';
+
 export type LoginError = Error & {
 	type: 'login_error';
 };
@@ -13,7 +15,7 @@ export type LoginError = Error & {
 export async function login(page: Page, { user, password }: Credentials) {
 	ux.action.start(`Log into @${user}'s account`);
 
-	await page.goto('https://www.instagram.com');
+	await page.goto(instragramURL);
 	await page.waitForTimeout(3000);
 
 	await page.getByLabel('Phone number, username, or email').fill(user);
@@ -156,8 +158,8 @@ export async function goToUserProfile(
 	if (hasErrorImg && hasErrorTitle && hasErrorDescription && hasReloadBtn) {
 		// on error page we cannot search so we would go to the previous visited
 		// page.
-		await page.goBack();
-		await page.waitForTimeout(3 * 1000);
+		await page.goto(instragramURL);
+		await page.waitForTimeout(5 * 1000);
 		if (logMessages) {
 			ux.action.stop(`❌ could not load @${userToSearch}'s profile`);
 		} else {
