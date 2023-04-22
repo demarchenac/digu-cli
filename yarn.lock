@@ -486,10 +486,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^2", "@oclif/core@^2.6.2", "@oclif/core@^2.6.4", "@oclif/core@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.7.1.tgz#3f38c1ace1675d80b0bbaa3ae5d4572b8fa04c22"
-  integrity sha512-HnaZ0ezNJUGok4uACOmVl05aSrCblmuq5Sqyg3Qa8aLFnTBuvHn3d67fTJKSttyAnJ5LI3zw8e5vzLD7WZuP0A==
+"@oclif/core@^2", "@oclif/core@^2.6.2", "@oclif/core@^2.6.4", "@oclif/core@^2.7.1", "@oclif/core@^2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.8.2.tgz#86fc31f20419dbb3cd25f89f4f1d83760c60f7c0"
+  integrity sha512-g50NrCdEcFlBfuwZb9RxLmxPNQ9wIaBPOiwbxlGYRkHMnsC6LNHcvVtyDnmndU8qoXrmCOZ6ocSZenOMlG+G1w==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -604,13 +604,13 @@
     lodash "^4.17.21"
     semver "^7.3.8"
 
-"@oclif/test@^2.3.10":
-  version "2.3.11"
-  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.11.tgz#efb268b2313bfe89c0ceee08497cbca8fc8f7b3d"
-  integrity sha512-QZGhAla1+lfXGJfzB/7yMs1rtdjmHFuu9prBxuT6yHKXTIdi5vwqDZKKzlZzJhtNLe+37ub/Z7uk0zT7dXbhBA==
+"@oclif/test@^2.3.16":
+  version "2.3.16"
+  resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.16.tgz#f6a8898218dcc499e70338f715430788b6ee54c3"
+  integrity sha512-uL6pTh6700MAkmpXYaerADgcHuTWRhF3IFZhzY/fgSMw1E57BiUojYs+nCnLZRP+KeFsSC0gkqZWJkFYx71dIA==
   dependencies:
-    "@oclif/core" "^2.6.4"
-    fancy-test "^2.0.13"
+    "@oclif/core" "^2.8.2"
+    fancy-test "^2.0.18"
 
 "@octokit/auth-token@^2.4.4":
   version "2.5.0"
@@ -2174,10 +2174,10 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-fancy-test@^2.0.13:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.15.tgz#d2949d7a4b889030389e46402289c754be69ffbb"
-  integrity sha512-yCtzWue60qfQd+b16dVUNE8kWCyQHNHUALnrue32M/ZxwH2AXjzjxdzA5YCe48kFlzqIi/tSxOuJa8TkU8Px1g==
+fancy-test@^2.0.18:
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/fancy-test/-/fancy-test-2.0.19.tgz#f30251ef89ec135df6dffffa7445b5ca4b366a2b"
+  integrity sha512-Zlj9GadzSXMLT11227FvkPOlM7wtzElRRJnUbwmC4tScbRUZx04PrS30fSuQCGT4hjaT8ZHQrEGea8S3xYrwsg==
   dependencies:
     "@types/chai" "*"
     "@types/lodash" "*"
