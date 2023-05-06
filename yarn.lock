@@ -521,12 +521,12 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-autocomplete@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-autocomplete/-/plugin-autocomplete-2.1.6.tgz#03fb4171f91d354a7e9e73547d937fd04acb262a"
-  integrity sha512-/nthZTH/6FNciwgYL1eytFXmBTkEynRRFsYgvMnun8ZRU8VeY74w4tuPM8PB/uKz+4gIweXl2xFNBRD01FoRNg==
+"@oclif/plugin-autocomplete@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-autocomplete/-/plugin-autocomplete-2.1.9.tgz#b0691d805941c9c559801fce5fede7c98a1648d3"
+  integrity sha512-Fx3YTb1tZJUZXlWw41HOCTJnrE58Qiyta7PxKzqlCl7TxFPHst1lxIdNo+93Kqc3StWc6+zOEHnqNLHsu/+HrA==
   dependencies:
-    "@oclif/core" "^2.6.4"
+    "@oclif/core" "^2.8.2"
     chalk "^4.1.0"
     debug "^4.3.4"
     fs-extra "^9.0.1"
