@@ -6,6 +6,10 @@ import { messageQueue } from './messages';
 const loginError =
 	'There was a problem logging you into Instagram. Please try again soon.';
 
+const igURL = 'https://www.instagram.com';
+
+const igSearchBtnName = 'Search Search';
+
 export type LoginError = Error & {
 	type: 'login_error';
 };
@@ -13,7 +17,7 @@ export type LoginError = Error & {
 export async function login(page: Page, { user, password }: Credentials) {
 	ux.action.start(`Log into @${user}'s account`);
 
-	await page.goto('https://www.instagram.com');
+	await page.goto(igURL);
 	await page.waitForTimeout(3000);
 
 	await page.getByLabel('Phone number, username, or email').fill(user);
@@ -109,7 +113,7 @@ export async function goToUserProfile(
 		ux.action.start(`Going to @${userToSearch}'s profile`);
 	}
 
-	await page.getByRole('link').getByText('search').click();
+	await page.getByRole('link', { name: igSearchBtnName }).first().click();
 	await page.waitForTimeout(3 * 1000);
 	await page.getByPlaceholder('search').fill(userToSearch);
 	await page.waitForTimeout(10 * 1000);
@@ -156,8 +160,8 @@ export async function goToUserProfile(
 	if (hasErrorImg && hasErrorTitle && hasErrorDescription && hasReloadBtn) {
 		// on error page we cannot search so we would go to the previous visited
 		// page.
-		await page.goBack();
-		await page.waitForTimeout(3 * 1000);
+		await page.goto(igURL);
+		await page.waitForTimeout(5 * 1000);
 		if (logMessages) {
 			ux.action.stop(`❌ could not load @${userToSearch}'s profile`);
 		} else {
