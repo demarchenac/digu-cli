@@ -24,7 +24,7 @@ $ npm install -g digu-cli
 $ digu-cli COMMAND
 running command...
 $ digu-cli (--version)
-digu-cli/1.1.1 darwin-arm64 node-v18.15.0
+digu-cli/1.1.2 darwin-arm64 node-v18.15.0
 $ digu-cli --help [COMMAND]
 USAGE
   $ digu-cli COMMAND
@@ -65,7 +65,7 @@ USAGE
   $ digu-cli autocomplete [SHELL] [-r]
 
 ARGUMENTS
-  SHELL  shell type
+  SHELL  (zsh|bash|powershell) Shell type
 
 FLAGS
   -r, --refresh-cache  Refresh cache (ignores displaying instructions)
@@ -80,10 +80,12 @@ EXAMPLES
 
   $ digu-cli autocomplete zsh
 
+  $ digu-cli autocomplete powershell
+
   $ digu-cli autocomplete --refresh-cache
 ```
 
-_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v2.1.6/src/commands/autocomplete/index.ts)_
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v2.2.0/src/commands/autocomplete/index.ts)_
 
 ## `digu-cli commands`
 
@@ -115,7 +117,7 @@ DESCRIPTION
   list all the commands
 ```
 
-_See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v2.2.11/src/commands/commands.ts)_
+_See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v2.2.15/src/commands/commands.ts)_
 
 ## `digu-cli hello PERSON`
 
@@ -139,7 +141,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/blob/v1.1.1/dist/commands/hello/index.ts)_
+_See code: [dist/commands/hello/index.ts](https://github.com/demarchenac/digu-cli/blob/v1.1.2/dist/commands/hello/index.ts)_
 
 ## `digu-cli hello world`
 
@@ -175,7 +177,7 @@ DESCRIPTION
   Display help for digu-cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.8/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.9/src/commands/help.ts)_
 
 ## `digu-cli ig list followers`
 
@@ -293,7 +295,7 @@ EXAMPLES
   $ digu-cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.3/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/index.ts)_
 
 ## `digu-cli plugins:install PLUGIN...`
 
@@ -543,7 +545,7 @@ EXAMPLES
     $ digu-cli update --available
 ```
 
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.1.8/src/commands/update.ts)_
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.1.16/src/commands/update.ts)_
 
 ## `digu-cli utils exclude EXCLUSIONFILE`
 
