@@ -604,7 +604,7 @@
     debug "^4.3.4"
     fs-extra "^9.0.1"
 
-"@oclif/plugin-commands@^2.2.11":
+"@oclif/plugin-commands@^2.2.15":
   version "2.2.15"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-commands/-/plugin-commands-2.2.15.tgz#a157959eac68c244be0b1991d9f0e646f259286b"
   integrity sha512-QaTIZhG5SW7sr42p4crJyE7jindr1hdHdazWTjiiPjsFEP3zUxVsNmwEMWPsBBVsjzw/gtztgpAexkZWJD8rXA==
@@ -676,7 +676,7 @@
     lodash "^4.17.21"
     semver "^7.5.1"
 
-"@oclif/test@^2.3.10":
+"@oclif/test@^2.3.17":
   version "2.3.21"
   resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.21.tgz#1a145a06a143eea1240a38f5aa3b9d8ba7c17612"
   integrity sha512-RaFNf3/PMwBLrL9yu8aFsONsUSpyI16AGC6HiAabDyu534Rh+jBtqy/dPZ53/SOCBOholhZmVs7jT0UE5Utwew==
