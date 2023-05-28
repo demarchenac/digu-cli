@@ -594,7 +594,7 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-autocomplete@^2.1.6":
+"@oclif/plugin-autocomplete@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@oclif/plugin-autocomplete/-/plugin-autocomplete-2.2.0.tgz#b1e07e2780f065e67a8e650998bd5a5eb03d8f6f"
   integrity sha512-nG+j6UR2D0VCR/kEPdFRYnHGLJwFKp4UHESDmbMNjMtzdw5VDPdV1ziaWYD3wMUUeHNbxyKzmmR6wVwmVqxWkw==
@@ -676,7 +676,7 @@
     lodash "^4.17.21"
     semver "^7.5.1"
 
-"@oclif/test@^2.3.10":
+"@oclif/test@^2.3.17":
   version "2.3.21"
   resolved "https://registry.yarnpkg.com/@oclif/test/-/test-2.3.21.tgz#1a145a06a143eea1240a38f5aa3b9d8ba7c17612"
   integrity sha512-RaFNf3/PMwBLrL9yu8aFsONsUSpyI16AGC6HiAabDyu534Rh+jBtqy/dPZ53/SOCBOholhZmVs7jT0UE5Utwew==
